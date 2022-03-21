@@ -22,7 +22,7 @@ const TaskList = ({ tasks, setTasks, filterStatus, setFilterStatus, filteredTask
       <div className='task-items-info'>
 
         <div className='items-left'>
-          {filteredTasks.length} items left
+          {filteredTasks.length} items
         </div>
 
         <FilterControl filterStatus={filterStatus} setFilterStatus={setFilterStatus} theme={theme}/>
