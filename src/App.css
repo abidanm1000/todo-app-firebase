@@ -23,8 +23,8 @@
   max-width: 650px;
   width: 100%;
   margin-top: 50px;
-  margin-left: 8px;
-  margin-right: 8px;
+  /* margin-left: 15px; */
+  /* margin-right: 15px; */
 }
 
 .header {
@@ -182,7 +182,7 @@
 
 @media only screen and (max-height:850px) {
   .task-list {
-    max-height: 200px;
+    max-height: 400px;
   }
 }
 
@@ -213,11 +213,11 @@
 
   .task-items-info {
     font-size: 10px;
-    padding: 0;
+    padding: 0 10px 0 10px;
   }
 
   .delete-button {
-    margin-right: 2px;
+    margin-right: 10px;
   }
 }
 
@@ -229,6 +229,10 @@
 
 .task-input.lightMode {
   background-color: rgb(156, 156, 156);
+}
+
+#todo-input.lightMode {
+  color: black;
 }
 
 .task-list-wrapper.lightMode {

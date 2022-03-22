@@ -52,7 +52,7 @@ const TaskInput = ({ tasks, setTasks, theme }) => {
 
       <div className='new-todo-input'>
         <form onSubmit={handleForm}>
-          <input id='todo-input' type='text' placeholder='Create a new todo...' onChange={handleChange}></input>
+          <input id='todo-input' className={theme} type='text' maxLength='30' placeholder='Create a new todo...' onChange={handleChange}></input>
         </form>
       </div>
 
