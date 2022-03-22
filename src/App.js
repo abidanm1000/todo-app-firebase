@@ -20,7 +20,7 @@ import { useState, useEffect } from 'react';
 const data = [
   { id: 1, text: 'Finish todo functionality', completed: false },
   { id: 2, text: "Study react hooks", completed: false },
-  { id: 3, text: "Finish Clever programmer challenge", completed: false },
+  { id: 3, text: "Finish bootcamp", completed: false },
   { id: 4, text: "Run 1 mile", completed: false },
   { id: 5, text: "Finish errands", completed: false },
   { id: 6, text: "Complete Todo App", completed: false },
