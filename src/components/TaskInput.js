@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import { addDoc, collection } from 'firebase/firestore'
+import db from '../utils/firebase'
 
 // How do I add a new todo item to my list?
 // Take my text and push it to the array of data/tasks
@@ -17,31 +19,50 @@ const TaskInput = ({ tasks, setTasks, theme }) => {
   }
   
   // creating a new object with input state and pushing object to data array
-  const handleForm = (e) => {
+  // const handleForm = (e) => {
+  //   e.preventDefault()
+
+  //   // creating the next ID in data array thru a function
+  //   const generateId = array => {
+  //     const taskIDs = array.map(item => item.id)
+  //     // console.log(Math.max(...taskIDs))
+  //     return Math.max(...taskIDs) + 1
+  //   }
+    
+  //   // create new todo object
+  //   const newTask = {
+  //     // id: task.length+1, - doesn't work if IDs are random numbers
+  //     id: generateId(tasks), // assigning next ID to new task
+  //     text: input,
+  //     completed: false
+  //   }
+
+  //   setTasks([newTask, ...tasks])
+    
+  //   document.getElementById('todo-input').value = ''
+  //   //setInput('') doesn't work
+  // }
+
+
+  // adding a task using firebase methods
+  const handleForm = async (e) => {
     e.preventDefault()
 
-    // creating the next ID in data array thru a function
-    const generateId = array => {
-      const taskIDs = array.map(item => item.id)
-      // console.log(Math.max(...taskIDs))
-      return Math.max(...taskIDs) + 1
-    }
-    
-    // create new todo object
-    const newTask = {
-      // id: task.length+1, - doesn't work if IDs are random numbers
-      id: generateId(tasks), // assigning next ID to new task
-      text: input,
-      completed: false
-    }
+    if(input) {
 
-    setTasks([newTask, ...tasks])
-    
-    document.getElementById('todo-input').value = ''
-    //setInput('') doesn't work
+      const collectionRef = collection(db, 'tasks');
+
+      const payload = { // don't need an ID since firebase provides IDs
+        completed: false,
+        text: input.trim() // removes space before or after string
+      }
+
+      // adding a doc/object/task to firebase collection/tasks
+      await addDoc(collectionRef, payload)
+      setInput('')
+
+    }
   }
-
-  // console.log(tasks)
 
   return (
     <div className={`task-input ${theme}`}>
@@ -52,7 +73,7 @@ const TaskInput = ({ tasks, setTasks, theme }) => {
 
       <div className='new-todo-input'>
         <form onSubmit={handleForm}>
-          <input id='todo-input' className={theme} type='text' maxLength='30' placeholder='Create a new todo...' onChange={handleChange}></input>
+          <input value={input} id='todo-input' className={theme} type='text' maxLength='30' placeholder='Create a new todo...' onChange={handleChange}></input>
         </form>
       </div>
 

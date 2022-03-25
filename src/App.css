@@ -6,10 +6,9 @@
   box-sizing: border-box;
 }
 
-.App {
+.Dashboard {
   height: 100vh;
   background-color: hsl(235, 21%, 11%);
-  /* background-color: rgb(199, 199, 199); */
   background-image: url('/public/images/earth.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,8 +22,6 @@
   max-width: 650px;
   width: 100%;
   margin-top: 50px;
-  /* margin-left: 15px; */
-  /* margin-right: 15px; */
 }
 
 .header {
@@ -193,7 +190,7 @@
 }
 
 @media only screen and (max-width: 500px) {
-  .App {
+  .Dashboard {
     font-size: 13px;
   }
 
@@ -222,7 +219,7 @@
 }
 
 /* Light Mode CSS */
-.App.lightMode {
+.Dashboard.lightMode {
   background-color: gainsboro;
   filter: hue-rotate(150deg);
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { FilterControl } from './FilterControl'
 import { Task } from './Task'
 
-const TaskList = ({ tasks, setTasks, filterStatus, setFilterStatus, filteredTasks, setFilteredTasks, clearCompleted, theme }) => {  
+const TaskList = ({ tasks, setTasks, filterStatus, setFilterStatus, filteredTasks, clearCompleted, theme }) => {  
 
   return (
     <div className={`task-list-wrapper ${theme}`}>
@@ -13,7 +13,7 @@ const TaskList = ({ tasks, setTasks, filterStatus, setFilterStatus, filteredTask
                                 task={task}
                                 tasks={tasks}
                                 setTasks={setTasks}
-                                setFilteredTasks={setFilteredTasks}
+                                filteredTasks={filteredTasks}
                                 theme={theme}
                               /> )}
       </div>
