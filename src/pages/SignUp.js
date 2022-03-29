@@ -21,10 +21,7 @@ export const SignUp = () => {
                 await setDoc(doc(db, 'users', `${response.user.uid}`),
                 {
                     tasks: [
-                        {
-                            text: 'test todo',
-                            completed: true
-                        },
+                       
                     ]
                 }
                 )

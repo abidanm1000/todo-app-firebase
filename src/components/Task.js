@@ -3,7 +3,7 @@ import Check from '../images/icon-check.svg'
 import {setDoc, doc, deleteDoc} from 'firebase/firestore'
 import db from '../utils/firebase'
 
-export const Task = ({ task, tasks, setTasks, theme, filteredTasks }) => {
+export const Task = ({ userId, task, tasks, setTasks, theme, filteredTasks }) => {
   
   // create a state variable to keep track of mutable todos/tasks
   const [mutableTask, setMutableTask] = useState(task)
@@ -36,14 +36,24 @@ export const Task = ({ task, tasks, setTasks, theme, filteredTasks }) => {
     setMutableTask({...mutableTask, completed: !mutableTask.completed})
     // back-end tasks from FIRESTORE
 
-    const docRef = doc(db, 'tasks', task.id)
+    // const docRef = doc(db, 'tasks', task.id)
+    // const payload = {
+    //   id: task.id,
+    //   text: task.text,
+    //   completed: !task.completed
+    // }
+
+    const docRef = doc(db, 'users', userId)
+
+    const arrayRef = filteredTasks
+    const index = filteredTasks.indexOf(task)
+    arrayRef[index] = {...task, completed: !task.completed}
+
     const payload = {
-      id: task.id,
-      text: task.text,
-      completed: !task.completed
+      tasks: arrayRef
     }
+
     setDoc(docRef, payload)
-   
   }
 
   // filters tasks and updates state on click - flips status to true then rerenders false tasks
@@ -52,9 +62,16 @@ export const Task = ({ task, tasks, setTasks, theme, filteredTasks }) => {
   //   setTasks(newTasks.filter(task => task.completed == false))
   // }
 
-  // delete single tasks with FIREBASE
+  // delete single tasks with FIREBASE - have to setDoc to update to new tasks which is like deleting items
   const removeTask = () => {
-    deleteDoc(doc(db, 'tasks', task.id))
+    let todos = filteredTasks.map(item => task.id === item.id ? {...item, completed: !item.completed} : item)
+ 
+    let newTodos = todos.filter(item => !item.completed)
+
+    const payload = {
+      tasks: newTodos
+    }
+    setDoc(doc(db, 'users', userId), payload)
   }
 
   return (

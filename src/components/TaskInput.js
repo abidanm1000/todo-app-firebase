@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import db from '../utils/firebase'
 
 // How do I add a new todo item to my list?
@@ -9,7 +9,7 @@ import db from '../utils/firebase'
 // everytime i change the input i wanna update my input state
 
 
-const TaskInput = ({ tasks, setTasks, theme }) => {
+const TaskInput = ({ tasks, setTasks, theme, userId, filteredTasks }) => {
   
   const [input, setInput] = useState('')
 
@@ -17,17 +17,27 @@ const TaskInput = ({ tasks, setTasks, theme }) => {
   const handleChange = (e) =>{ 
     setInput(e.target.value)
   }
+
+  const generateId = array => {
+    const taskIDs = array.map(item => item.id)
+    // console.log(Math.max(...taskIDs))
+    if(taskIDs.length === 0) {
+      return 0
+    } else {
+      return Math.max(...taskIDs) + 1
+    }
+  }
   
   // creating a new object with input state and pushing object to data array
   // const handleForm = (e) => {
   //   e.preventDefault()
 
   //   // creating the next ID in data array thru a function
-  //   const generateId = array => {
-  //     const taskIDs = array.map(item => item.id)
-  //     // console.log(Math.max(...taskIDs))
-  //     return Math.max(...taskIDs) + 1
-  //   }
+    // const generateId = array => {
+    //   const taskIDs = array.map(item => item.id)
+    //   // console.log(Math.max(...taskIDs))
+    //   return Math.max(...taskIDs) + 1
+    // }
     
   //   // create new todo object
   //   const newTask = {
@@ -50,17 +60,36 @@ const TaskInput = ({ tasks, setTasks, theme }) => {
 
     if(input) {
 
-      const collectionRef = collection(db, 'tasks');
+      // const collectionRef = collection(db, 'tasks');
 
-      const payload = { // don't need an ID since firebase provides IDs
+      // const payload = { // don't need an ID since firebase provides IDs
+      //   completed: false,
+      //   text: input.trim() // removes space before or after string
+      // }
+
+      // // adding a doc/object/task to firebase collection/tasks
+      // await addDoc(collectionRef, payload)
+      // setInput('')
+
+     
+
+      // create the task object
+      const newTask = {
+        id: generateId(filteredTasks),
         completed: false,
-        text: input.trim() // removes space before or after string
+        text: input.trim()
       }
 
-      // adding a doc/object/task to firebase collection/tasks
-      await addDoc(collectionRef, payload)
-      setInput('')
+      // get the users tasks then add the new task to the array
+      let tasksRef = filteredTasks
+      tasksRef.push(newTask)
 
+      const payload = {
+        tasks: tasksRef
+      }
+
+      setDoc(doc(db, 'users', userId), payload)
+      setInput('')
     }
   }
 
